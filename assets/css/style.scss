@@ -55,6 +55,19 @@ html {
   font-family: 'Markazi Text', sans-serif;
 }
 
+
+body {
+  position          : relative;
+  overflow-x        : hidden;
+  -webkit-transition: right 200ms ease-in-out;
+  right             : 0;
+
+  &.mobile-view {
+    right: 250px;
+  }
+}
+
+
 h1 {
   font-size  : 60px;
   font-weight: 200;
@@ -212,7 +225,7 @@ h1.site-logo {
 .container-fluid {
   padding-right: 4rem;
   padding-left : 4rem;
-  overflow     : hidden;
+  overflow-x   : hidden;
 }
 
 /*  === Top bar section === */
@@ -252,89 +265,193 @@ h1.site-logo {
 
 .top-nav {
   background-color: $lightGrey;
+  overflow        : initial;
+  border-bottom   : 1px solid #ddd;
+
+
+
 
   .btn {
-    float   : left;
-    position: relative;
-    top     : 30px;
+    position: absolute;
+    top     : 158px;
+    left    : 60px;
   }
 
   .navbar {
-    float : right;
-    height: 100px;
+
 
     a {
       font-weight: 700;
       font-size  : 16px;
     }
 
-    ul {
-      margin  : 0;
-      padding : 0;
-      position: absolute;
+    div#main-menu:not(.mobile-menu-active) {
+      ul {
+        padding-inline-start: 00px;
+
+
+        li {
+          display: inline-block;
+          padding: 35px 0px 35px 20px;
+
+          &.active {
+            a {
+              border-bottom: 2px solid $green;
+            }
+          }
+        }
+      }
 
 
       li {
-        display: inline-block;
-        padding: 35px 0px 35px 20px;
 
-        &.active {
-          a {
-            border-bottom: 2px solid $green;
-          }
-        }
-      }
-    }
-
-    li {
-
-      i {
-        margin: 0 5px 0 0;
-      }
-
-      &:hover .dropdown-content {
-        display: block;
-      }
-
-      position: relative;
-
-      ul {
-        top      : 60px;
-        min-width: 200px;
-        display  : none;
-        position : absolute;
-        @include radius(4px, 4px, 4px, 4px);
-        border: 1px solid $lightGrey2;
-
-        svg {
-          position: relative;
-          top     : 10px;
-          width   : 20px;
+        i {
+          margin: 0 5px 0 0;
         }
 
-        li {
-          padding         : 10px 10px 10px 10px;
-          display         : block !important;
-          background-color: $white;
+        &:hover .dropdown-content {
+          display: block;
+        }
 
-          &:not(:last-child) {
-            border-bottom: 1px solid $lightGrey2;
+        position: relative;
 
+        ul {
+          top      : 60px;
+          min-width: 200px;
+          display  : none;
+          position : absolute;
+          @include radius(4px, 4px, 4px, 4px);
+          border: 1px solid $lightGrey2;
+
+          svg {
+            position: relative;
+            top     : 10px;
+            width   : 20px;
           }
 
-          &:hover {
-            background-color: $lightGrey2;
-            @include transition (200ms)
-          }
+          li {
+            padding         : 10px 10px 10px 10px;
+            display         : block !important;
+            background-color: $white;
 
-          a {
-            text-decoration: none;
+            &:not(:last-child) {
+              border-bottom: 1px solid $lightGrey2;
+
+            }
+
+            &:hover {
+              background-color: $lightGrey2;
+              @include transition (200ms)
+            }
+
+            a {
+              text-decoration: none;
+            }
           }
         }
       }
     }
   }
 }
+
+a#mobile-menu-trigger {
+  display  : none;
+  margin   : 20px;
+  font-size: 20px;
+  content  : "\f0c9";
+
+  &.changeCollabesIcon i:before {
+    content: "\f00d";
+  }
+}
+
+
+
+@media screen and (max-width: 768px) {
+  div#main-menu {
+    display: none;
+  }
+
+  a#mobile-menu-trigger {
+    display: block;
+  }
+}
+
+div#main-menu.mobile-menu-active {
+
+  background-color: #f5f5f5;
+  width           : 250px;
+  min-height      : 100%;
+  display         : block;
+  position        : absolute;
+  top             : 0;
+  right           : -250px;
+  z-index         : 9999;
+  box-shadow      : 0 14px 15px 1px $medGrey;
+
+
+
+  a {
+    color: #535353;
+  }
+
+  ul {
+    padding-inline-start: 0px;
+    position            : sticky;
+    top                 : 0;
+
+
+    li {
+      display: block;
+      ;
+      width        : 100%;
+      padding      : 10px;
+      box-sizing   : border-box;
+      margin       : 0;
+      list-style   : none;
+      border-bottom: 1px solid rgba(60, 60, 60, 0.14);
+
+      &.active {
+        border-right: 5px solid #1d9046;
+      }
+
+      i.fa-chevron-down {
+        float: left;
+      }
+
+      ul {
+        li {
+          border-bottom: none;
+          padding-right: 10px;
+
+          a {
+            font-size: 16px;
+            color    : rgba(0, 0, 0, 0.76);
+            ;
+          }
+
+        }
+      }
+    }
+  }
+
+  .dropdown-content {
+    transition      : max-height 0.3s;
+    overflow        : hidden;
+    height          : 0;
+    margin          : 10px -10px 0 -10px;
+    background-color: rgba(215, 215, 215, 0.39);
+  }
+
+  .slideDownSubMenu {
+    height       : auto;
+    margin-bottom: -10px;
+  }
+}
+
+
+
+/*  === Announce  section === */
 
 .red-announce {
   background-color: $red;
@@ -345,15 +462,17 @@ h1.site-logo {
   }
 }
 
+
+
 /*  === Our courses section === */
 
 .our-courses {
-  margin: 40px 0;
+  margin : 40px 0;
+  padding: 0;
 
   .course-items {
-    width    : 80%;
+    width    : 100%;
     max-width: 900px;
-    display  : block;
     margin   : auto;
     display  : flex;
     flex-wrap: wrap;
@@ -362,17 +481,27 @@ h1.site-logo {
       padding   : 40px 10px 10px;
       box-sizing: border-box;
       display   : inline-block;
-      width     : 17.7%;
+      width     : 160px;
+      height    : 160px;
       margin    : 0 1% 20px;
       box-shadow: 0px 3px 7px -5px black;
+      position  : relative;
+      top       : 0;
       @include shadow(0, 3px, 7px, -5px, black);
       @include radius(500px, 500px, 500px, 500px);
+      @include transition(300ms);
+
+      &:hover {
+        opacity: 0.7;
+        top    : -5px;
+      }
 
       img {
         max-width : 70%;
         display   : block;
         margin    : auto;
-        max-height: 60px;
+        height    : 50px;
+        object-fit: contain;
       }
 
       p {
@@ -385,7 +514,7 @@ h1.site-logo {
 /*  === Image banner section === */
 
 .user-banner {
-  background-color: $lightGrey2;
+  background-color: #f0f0f0;
 
   img {
     width: 100%;
@@ -411,6 +540,15 @@ h1.site-logo {
     padding-left : 0rem;
     position     : relative;
     margin-bottom: 20px;
+    top          : 0;
+    @include transition (200ms);
+
+    &:hover {
+      top    : -3px;
+      opacity: 0.9;
+
+    }
+
 
     div {
       padding-right: 0.5rem;
@@ -469,17 +607,81 @@ h1.site-logo {
 
 /* === Video player section === */
 
-.video-player {
-  width: 100%;
 
-  video {
-    object-fit: cover;
-    height    : 600px;
-    position  : relative;
-    bottom    : -6px;
+
+
+section.video-player {
+  .video-player {
+    width: 100%;
+
+    video {
+      object-fit: cover;
+      height    : 600px;
+      position  : relative;
+      bottom    : -6px;
+    }
   }
-}
 
+  background-image   : url('../img/vidoe-bg.jpg');
+  background-size    : cover;
+  background-position: 50% 50%;
+  width              : 100%;
+  background-repeat  : no-repeat;
+
+  div.overlay {
+    height            : 500px;
+    background-color  : rgba(0, 0, 0, 0.23);
+    padding-top       : 200px;
+    box-sizing        : border-box;
+    -webkit-transition: all 200ms ease-in-out;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.36);
+    }
+
+    img#open-video {
+      display: block;
+      margin : 0px auto 0;
+      cursor : pointer;
+      width  : 120px;
+    }
+  }
+
+
+
+  div.popup {
+    position        : fixed;
+    background-color: rgba(0, 0, 0, 0.26);
+    top             : 0;
+    left            : 0;
+    z-index         : 900;
+    width           : 100%;
+    height          : 100%;
+
+    video {
+      outline      : none;
+      border-radius: 10px;
+      display      : block;
+      margin       : 30px auto;
+      width        : 90%;
+      height       : 90%;
+    }
+
+    display: none;
+  }
+
+  a#close-popup {
+    color  : #fff;
+    display: block;
+
+    font-size: 40px;
+    position : fixed;
+    top      : 10px;
+    right    : 10px;
+
+  }
+
+}
 
 /* === Email subscription box === */
 
@@ -606,14 +808,9 @@ h1.site-logo {
 
 @media screen and (max-width: 991.98px) {
   .course-items {
+    width: 696px !important;
 
-    width: 100% !important;
-
-    .item {
-      padding: 30px 5px 5px !important;
-      width  : 22% !important;
-      margin : 0 1% 20px !important;
-    }
+    .item {}
   }
 
   .grid-items {
@@ -708,14 +905,9 @@ h1.site-logo {
   }
 
   .course-items {
-    .item {
-      padding: 45px 5px 20px !important;
-      ;
-      width: 30% !important;
-      ;
-      margin: 0 1% 20px !important;
-      ;
-    }
+    width: 512px !important;
+
+    .item {}
   }
 
   .col-sm-12 {
@@ -735,33 +927,41 @@ h1.site-logo {
 
   section.top-nav {
     .navbar {
-      height: 65px;
+      height: 46px;
     }
 
     .btn {
       padding  : 8px 15px;
       font-size: 14px;
-      top      : 15px;
+      top      : 96px;
+      left     : 14px;
     }
 
-    ul#main-menu {
-      a {
-        font-size: 14px;
-      }
+    div#main-menu:not(.mobile-menu-active) {
+      ul {
+        a {
+          font-size: 14px;
+        }
 
-      li {
-        padding: 25px 0px 35px 8px;
+        li {
+          padding: 0px 0px 35px 8px;
 
-        ul {
-          li {
-            padding: 8px 8px 8px 8px;
+          ul {
+            li {
+              padding: 8px 8px 8px 8px;
+            }
           }
         }
       }
     }
   }
-
   p {
     font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .course-items {
+    width: 335px !important;
   }
 }
